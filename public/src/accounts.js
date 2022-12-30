@@ -3,22 +3,23 @@ function findAccountById(accounts, id) {
 }
 
 function sortAccountsByLastName(accounts) {
-  return accounts.sort((lastA, lastB) => lastA.name.last.toLowerCase() > lastB.name.last.toLowerCase() ? 1: -1)
+  return accounts.sort((lastA, lastB) =>
+   lastA.name.last.toLowerCase() > lastB.name.last.toLowerCase() ? 1: -1)
 }
 
 function getTotalNumberOfBorrows(account, books) {
-let accountId = account.id;
+  let accountId = account.id;
 //reduce method to add total times account id appears in "borrows" array
   return books.reduce((total, {borrows}) => {
     //if any book id matches account id, increment total
-    if (borrows.some((record) => record.id === accountId))
+    if (borrows.some((match) => match.id === accountId))
     total++;
     return total}, 0)
 }
 
 
 function getBooksPossessedByAccount(account, books, authors) {
-  //empty array for books with author info
+   //empty array for books with author info
   let total = [];
   //if book id and account id match, and book hasn't been returned
   books.forEach((book) => { 
@@ -27,9 +28,9 @@ function getBooksPossessedByAccount(account, books, authors) {
   }})
  //if author id and account id match, return author info array inside book
   total.forEach((book) => {
-  let AuthorInfo = authors.find((person) => 
+  let authorInfo = authors.find((person) => 
   person.id === book.authorId);
-  book ["author"] = AuthorInfo
+  book ["author"] = authorInfo
  })
  return total;
 }
