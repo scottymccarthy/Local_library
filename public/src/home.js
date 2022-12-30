@@ -7,7 +7,7 @@ function getTotalAccountsCount(accounts) {
 }
 
 function getBooksBorrowedCount(books) {
-  //reduce method for amount books not yet returned in collection
+   //reduce method for amount books not yet returned in collection
 return books.reduce((total, {borrows}) => {
   const amount = borrows[0];
   //if book is checked out, increment the total
@@ -18,7 +18,7 @@ return books.reduce((total, {borrows}) => {
 }
 
 function getMostCommonGenres(books) {
-let total = [];
+  let total = [];
 let common = books.map((book) => book.genre);
 //map over total and check if each genre repeats in the array
 common.map((genre) => {
@@ -41,7 +41,7 @@ common.map((genre) => {
 }
 
 function getMostPopularBooks(books) {
- //map method for new array of books with 'name' and 'count' keys/values
+    //map method for new array of books with 'name' and 'count' keys/values
 let total = books.map((book) => {
   return {name: book.title, count: book.borrows.length};
 });
@@ -51,30 +51,26 @@ return total.sort((bookA, bookB) =>
 }
 
 function getMostPopularAuthors(books, authors) {
-let total = [];
-//loop through authors, define name and count
-for (let author of authors){
-  let name = `${author.name.first} ${author.name.last}`;
-  let count = 0;
-  for (let book of books) {
-  //if author matches book.authorId, add book the borrows to count variable
-    if (author.id === books.authorId) {
-      count += book.borrows.length;
-    }
-  }
-  //push new objects into array
-  const result = {name: name, count: count};
-  total.push(result);
+  let total = [];
+  authors.forEach((author) => {
+    let theAuthor = {
+      name: `${author.name.first} ${author.name.last}`,
+      count: 0
+    };
+    books.forEach((book) => {
+      if (book.authorId === author.id) {
+        theAuthor.count += book.borrows.length;
+      }
+    });
+    total.push(theAuthor);
+  });
+  return total.sort((a, b) => b.count - a.count).slice(0, 5);
 }
-//sort most to least popular, then slice() method for top five
-return total.sort((authorA, authorB) => 
-(authorA.count < authorB.count ? 1 : -1)).slice(0, 5);
-}
-
 //create helper function
 function countItems(item) {
   return item.length;
 }
+
 
 module.exports = {
   getTotalBooksCount,
